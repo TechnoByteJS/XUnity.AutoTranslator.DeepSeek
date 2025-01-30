@@ -5,7 +5,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
-		<GameDir>C:\Program Files (x86)\Steam\steamapps\common\The road of Jianghu\daojianjianghulu_Data\Managed\Translators\</GameDir>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -34,10 +33,6 @@
 		</PropertyGroup>
 		<Message Text="MERGING: @(InputAssemblies->'%(Filename)') into $(OutputAssembly)" Importance="High" />
 		<ILRepack OutputType="$(OutputType)" MainAssembly="$(AssemblyName).dll" OutputAssembly="$(AssemblyName).dll" InputAssemblies="@(InputAssemblies)" InternalizeExcludeAssemblies="@(InternalizeExcludeAssemblies)" WorkingDirectory="$(WorkingDirectory)" />
-	</Target>
-
-	<Target Name="PostBuild" AfterTargets="ILRepack">
-		<Exec Command="XCOPY /Y /I &quot;$(TargetDir)$(TargetName)$(TargetExt)&quot; &quot;$(GameDir)&quot;" />
 	</Target>
 
 </Project>

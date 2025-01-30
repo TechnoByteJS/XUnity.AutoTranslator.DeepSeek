@@ -5,30 +5,30 @@ using XUnity.AutoTranslator.Plugin.Core.Endpoints;
 using XUnity.AutoTranslator.Plugin.Core.Endpoints.Http;
 using XUnity.AutoTranslator.Plugin.Core.Web;
 
-internal class ChatGptTranslatorEndpoint : HttpEndpoint
+internal class DeepSeekTranslatorEndpoint : HttpEndpoint
 {
     private string? _apiKey;
     private string? _model;
     private string? _prompt;
-    private const string _url = "https://api.openai.com/v1/chat/completions";
+    private const string _url = "https://api.deepseek.com/chat/completions";
 
-    public override string Id => "ChatGPTTranslate";
-    public override string FriendlyName => "ChatGPT Translate";
+    public override string Id => "DeepSeekTranslate";
+    public override string FriendlyName => "DeepSeek Translate";
     public override int MaxTranslationsPerRequest => 1;
     public override int MaxConcurrency => 15;
 
     public override void Initialize(IInitializationContext context)
     {
-        _apiKey = context.GetOrCreateSetting("ChatGPT", "APIKey", "");
-        _model = context.GetOrCreateSetting("ChatGPT", "Model", "gpt-4o");
-        _prompt = context.GetOrCreateSetting("ChatGPT", "Prompt", "");
+        _apiKey = context.GetOrCreateSetting("DeepSeek", "APIKey", "");
+        _model = context.GetOrCreateSetting("DeepSeek", "Model", "deepseek-chat");
+        _prompt = context.GetOrCreateSetting("DeepSeek", "Prompt", "You are a professional translator. Translate the following text to English accurately. Maintain original context and nuance. Keep character names original.");
 
         // Remove artificial delays
         context.SetTranslationDelay(0.1f);
         context.DisableSpamChecks();
 
         if (string.IsNullOrEmpty(_apiKey))
-            throw new Exception("The ChatGPT endpoint requires an API key which has not been provided.");
+            throw new Exception("The DeepSeek endpoint requires an API key which has not been provided.");
     }
 
     public override void OnCreateRequest(IHttpRequestCreationContext context)
@@ -57,11 +57,11 @@ internal class ChatGptTranslatorEndpoint : HttpEndpoint
         var requestBody = new
         {
             model = _model,
-            temperature = 0.1,
+            // temperature = 0.1,
             max_tokens = 1000,
-            top_p = 1,
-            frequency_penalty = 0,
-            presence_penalty = 0,
+            // top_p = 1,
+            // frequency_penalty = 0,
+            // presence_penalty = 0,
             messages
         };
 
